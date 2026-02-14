@@ -30,16 +30,16 @@ dotnet run --project src/StatelessHttpDemo/StatelessHttpDemo.csproj
 
 ## Quick test
 
-```bash
+```powershell
 curl -i http://localhost:5000/whoami
 
-curl -i http://localhost:5000/whoami \
-  -H 'Authorization: Bearer alice:admin' \
-  -H 'X-Request-Id: req-123'
+curl.exe -i http://localhost:5000/whoami `
+  -H "Authorization: Bearer alice:admin" `
+  -H "X-Request-Id: req-123"
 
-curl -i http://localhost:5000/echo \
-  -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer alice:admin' \
-  -H 'X-Tenant-Id: tenant-a' \
-  -d '{"message":"hello","timestampUtc":"2026-01-01T00:00:00Z"}'
+curl.exe -i http://localhost:5000/echo `
+  -H "Content-Type: application/json" `
+  -H "Authorization: Bearer alice:admin" `
+  -H "X-Tenant-Id: tenant-a" `
+  -d "{\"message\":\"hello\",\"timestampUtc\":\"2026-01-01T00:00:00Z\"}"
 ```
