@@ -1,26 +1,15 @@
-# HackerrankPHP → C# 14 Stateless HTTP Demo
+# T.U.N.G Dining FnB Management API (ASP.NET Core)
 
-This repository now contains a C# web API demo focused on **stateless HTTP handling**.
+This repository now provides a lightweight FnB backend for **T.U.N.G Dining** with target capacity **~60-70 seats**.
 
-## What changed
+## Features
 
-- All original PHP practice files were moved into [`php/`](./php) for archival.
-- A new ASP.NET Core minimal API was added in [`src/StatelessHttpDemo`](./src/StatelessHttpDemo).
-- The project is configured for **C# 14 (preview)** via `<LangVersion>preview</LangVersion>` and `net10.0`.
-
-## Stateless HTTP handling demonstrated
-
-The API avoids server-side session state. Every request carries all required context:
-
-- `Authorization: Bearer <userId>:<role>`
-- `X-Request-Id` (optional for request tracing)
-- `X-Tenant-Id` (required for `/echo`)
-
-Endpoints:
-
-- `GET /` — service metadata
-- `GET /whoami` — derives user info from token on each request
-- `POST /echo` — validates tenant header and returns payload + contextual identity
+- Restaurant dashboard summary
+- Table management (status updates)
+- Menu management (list + create item)
+- Order management (create order + update status)
+- Reservation management with seating-capacity guardrails
+- Stateless identity demo endpoint (`/whoami`)
 
 ## Run
 
@@ -28,18 +17,35 @@ Endpoints:
 dotnet run --project src/StatelessHttpDemo/StatelessHttpDemo.csproj
 ```
 
-## Quick test
+## Main endpoints
 
-```powershell
-curl -i http://localhost:5000/whoami
+- `GET /` - API metadata
+- `GET /dashboard` - high-level operational KPIs
+- `GET /tables`
+- `PATCH /tables/{tableCode}/status`
+- `GET /menu`
+- `POST /menu`
+- `GET /orders`
+- `POST /orders`
+- `PATCH /orders/{orderId}/status`
+- `GET /reservations`
+- `POST /reservations`
+- `GET /whoami`
 
-curl.exe -i http://localhost:5000/whoami `
-  -H "Authorization: Bearer alice:admin" `
-  -H "X-Request-Id: req-123"
+## Example request
 
-curl.exe -i http://localhost:5000/echo `
-  -H "Content-Type: application/json" `
-  -H "Authorization: Bearer alice:admin" `
-  -H "X-Tenant-Id: tenant-a" `
-  -d "{\"message\":\"hello\",\"timestampUtc\":\"2026-01-01T00:00:00Z\"}"
+```bash
+curl -X POST http://localhost:5000/reservations \
+  -H "Content-Type: application/json" \
+  -d '{
+    "customerName": "Nguyen Van A",
+    "phoneNumber": "0900000000",
+    "guestCount": 6,
+    "bookingTime": "2026-05-01T12:00:00Z",
+    "note": "Birthday table"
+  }'
 ```
+
+## Requirement note
+
+See [`docs/tung-dining-requirements.md`](docs/tung-dining-requirements.md).
