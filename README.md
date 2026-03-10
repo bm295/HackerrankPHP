@@ -1,15 +1,40 @@
-# T.U.N.G Dining FnB Management API (ASP.NET Core)
+# T.U.N.G Dining FnB Management API (.NET 10, C# preview)
 
-This repository now provides a lightweight FnB backend for **T.U.N.G Dining** with target capacity **~60-70 seats**.
+This repository implements a restaurant FnB backend for **T.U.N.G Dining** (target **60-70 seats**) using a **Hexagonal Architecture (Ports and Adapters)** structure.
 
-## Features
+## Architecture layout
 
-- Restaurant dashboard summary
-- Table management (status updates)
-- Menu management (list + create item)
-- Order management (create order + update status)
-- Reservation management with seating-capacity guardrails
-- Stateless identity demo endpoint (`/whoami`)
+```text
+src/StatelessHttpDemo
+  /Domain
+    /Entities
+    /Services
+  /Application
+    /Ports/In
+    /Ports/Out
+    /UseCases
+    /DTOs
+  /Adapters
+    /Persistence
+  Program.cs (API adapter/composition root)
+```
+
+## Implemented operations
+
+- Order management
+  - Create order for a table
+  - Add/remove order items
+  - Send order to kitchen
+  - Close order
+- Payment processing
+  - Process payments per order
+- Inventory tracking
+  - Ingredient-level inventory seeded and deducted at payment
+- Table/seat management
+  - List tables and update table status
+- Basic reporting
+  - Daily report endpoint
+- Reservation management with 70-seat capacity guard
 
 ## Run
 
@@ -19,33 +44,18 @@ dotnet run --project src/StatelessHttpDemo/StatelessHttpDemo.csproj
 
 ## Main endpoints
 
-- `GET /` - API metadata
-- `GET /dashboard` - high-level operational KPIs
+- `GET /`
 - `GET /tables`
 - `PATCH /tables/{tableCode}/status`
 - `GET /menu`
-- `POST /menu`
+- `GET /inventory`
 - `GET /orders`
 - `POST /orders`
-- `PATCH /orders/{orderId}/status`
+- `POST /orders/{orderId}/items/add`
+- `POST /orders/{orderId}/items/remove`
+- `POST /orders/{orderId}/send-to-kitchen`
+- `POST /orders/{orderId}/payments`
+- `POST /orders/{orderId}/close`
 - `GET /reservations`
 - `POST /reservations`
-- `GET /whoami`
-
-## Example request
-
-```bash
-curl -X POST http://localhost:5000/reservations \
-  -H "Content-Type: application/json" \
-  -d '{
-    "customerName": "Nguyen Van A",
-    "phoneNumber": "0900000000",
-    "guestCount": 6,
-    "bookingTime": "2026-05-01T12:00:00Z",
-    "note": "Birthday table"
-  }'
-```
-
-## Requirement note
-
-See [`docs/tung-dining-requirements.md`](docs/tung-dining-requirements.md).
+- `GET /reports/daily/{date}`
