@@ -41,3 +41,6 @@ coverage/
 coverage-*/
 *.coverage
 *.coveragexml
+
+# Local app database
+src/TDining.Api/tdining.db

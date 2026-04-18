@@ -1,21 +1,23 @@
-# T Dining FnB Management API (.NET 10, C# preview)
+# T Dining API (.NET 10, C# preview)
 
-This repository implements a restaurant FnB backend for **T Dining** (target **60-70 seats**) using a **Hexagonal Architecture (Ports and Adapters)** structure.
+This repository implements a restaurant backend for **T Dining** (target **60-70 seats**) using a **Hexagonal Architecture (Ports and Adapters)** structure with SQLite persistence and a transactional outbox for order creation.
 
 ## Architecture layout
 
 ```text
-src/StatelessHttpDemo
+src/TDining.Api
   /Domain
     /Entities
     /Services
+    /Events
   /Application
     /Ports/In
     /Ports/Out
     /UseCases
     /DTOs
-  /Adapters
+  /Infrastructure
     /Persistence
+    /Outbox
   Program.cs (API adapter/composition root)
 ```
 
@@ -39,8 +41,10 @@ src/StatelessHttpDemo
 ## Run
 
 ```bash
-dotnet run --project src/StatelessHttpDemo/StatelessHttpDemo.csproj
+dotnet run --project src/TDining.Api/TDining.Api.csproj
 ```
+
+The app creates a local SQLite database file at `src/TDining.Api/tdining.db` on first run.
 
 ## Main endpoints
 
