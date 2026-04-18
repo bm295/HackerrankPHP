@@ -1,7 +1,7 @@
-# T.U.N.G Dining - FnB Application Requirement Note
+# T Dining - FnB Application Requirement Note
 
 ## Basic information
-- Restaurant name: **T.U.N.G Dining**
+- Restaurant name: **T Dining**
 - Seating capacity target: **~60-70 seats**
 
 ## Product goal

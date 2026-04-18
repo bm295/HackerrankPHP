@@ -1,4 +1,4 @@
-# Architecture Review Report — T.U.N.G Dining Repository (Post-Refactor)
+# Architecture Review Report — T Dining Repository (Post-Refactor)
 
 The prior findings were addressed with a refactor to a ports-and-adapters structure and use-case driven flows.
 
