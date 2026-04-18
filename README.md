@@ -1,6 +1,6 @@
-# T.U.N.G Dining FnB Management API (.NET 10, C# preview)
+# T Dining FnB Management API (.NET 10, C# preview)
 
-This repository implements a restaurant FnB backend for **T.U.N.G Dining** (target **60-70 seats**) using a **Hexagonal Architecture (Ports and Adapters)** structure.
+This repository implements a restaurant FnB backend for **T Dining** (target **60-70 seats**) using a **Hexagonal Architecture (Ports and Adapters)** structure.
 
 ## Architecture layout
 

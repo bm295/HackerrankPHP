@@ -28,7 +28,7 @@ app.UseExceptionHandler();
 
 app.MapGet("/", () => Results.Ok(new
 {
-    service = "T.U.N.G Dining FnB management API",
+    service = "T Dining FnB management API",
     architecture = "Hexagonal (Ports & Adapters)",
     seatingCapacity = "60-70 seats"
 }));
