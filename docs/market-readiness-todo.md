@@ -28,15 +28,15 @@ T Dining is **not ready to market yet**. The repository has a useful backend pro
 
 ## Phase 1 — Build confidence with tests
 
-- [ ] Create test project `tests/TDining.Api.Tests/TDining.Api.Tests.csproj` using xUnit.
-- [ ] Create class `OrderUseCasesTests` in `tests/TDining.Api.Tests/Application/UseCases/OrderUseCasesTests.cs`.
-- [ ] Add test `CreateOrderAsync_WhenTableExists_CreatesOrderAndOccupiesTable`.
-- [ ] Add test `CreateOrderAsync_WhenMenuItemMissing_ReturnsClearFailure`.
-- [ ] Add test `AddItemAsync_WhenQuantityIsZero_ReturnsValidationFailure`.
-- [ ] Add test `RemoveItemAsync_WhenRemovingTooManyItems_ReturnsValidationFailure`.
-- [ ] Add test `SendToKitchenAsync_WhenOrderHasNoLines_ReturnsValidationFailure`.
-- [ ] Add test `ProcessPaymentAsync_WhenInventoryIsInsufficient_DoesNotRecordPayment`.
-- [ ] Add test `CloseOrderAsync_WhenNotFullyPaid_ReturnsValidationFailure`.
+- [x] Create test project `tests/TDining.Api.Tests/TDining.Api.Tests.csproj` using xUnit.
+- [x] Create class `OrderUseCasesTests` in `tests/TDining.Api.Tests/Application/UseCases/OrderUseCasesTests.cs`.
+- [x] Add test `CreateOrderAsync_WhenTableExists_CreatesOrderAndOccupiesTable`.
+- [x] Add test `CreateOrderAsync_WhenMenuItemMissing_ReturnsClearFailure`.
+- [x] Add test `AddItemAsync_WhenQuantityIsZero_ReturnsValidationFailure`.
+- [x] Add test `RemoveItemAsync_WhenRemovingTooManyItems_ReturnsValidationFailure`.
+- [x] Add test `SendToKitchenAsync_WhenOrderHasNoLines_ReturnsValidationFailure`.
+- [x] Add test `ProcessPaymentAsync_WhenInventoryIsInsufficient_DoesNotRecordPayment`.
+- [x] Add test `CloseOrderAsync_WhenNotFullyPaid_ReturnsValidationFailure`.
 - [ ] Create class `ReservationUseCasesTests` in `tests/TDining.Api.Tests/Application/UseCases/ReservationUseCasesTests.cs`.
 - [ ] Add test `CreateReservationAsync_WhenCapacityExceeded_ReturnsValidationFailure`.
 - [ ] Add test `CreateReservationAsync_WhenInputHasWhitespace_TrimsCustomerAndPhone`.
