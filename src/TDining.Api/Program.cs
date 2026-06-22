@@ -117,8 +117,10 @@ static async Task<IResult> Execute(Func<Task<IResult>> run)
     }
     catch (InvalidOperationException ex)
     {
-        return Results.BadRequest(new { error = ex.Message });
+        return Results.Problem(ex.Message, statusCode: StatusCodes.Status400BadRequest, title: "Bad Request");
     }
 }
 
 public sealed record UpdateTableStatusRequest(TableStatus Status);
+
+public partial class Program;
