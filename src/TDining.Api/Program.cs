@@ -6,13 +6,19 @@ using TDining.Api.Domain.Entities;
 using TDining.Api.Domain.Services;
 using TDining.Api.Infrastructure.Outbox;
 using TDining.Api.Infrastructure.Persistence;
+using TDining.Api.Options;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var databasePath = Path.Combine(builder.Environment.ContentRootPath, "tdining.db");
-var connectionString = builder.Configuration.GetConnectionString("Default") ?? $"Data Source={databasePath}";
+var configuredConnectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? builder.Configuration.GetConnectionString("Default");
+var connectionString = string.IsNullOrWhiteSpace(configuredConnectionString)
+    ? $"Data Source={databasePath}"
+    : configuredConnectionString;
 
 builder.Services.AddProblemDetails();
+builder.Services.Configure<ApplicationOptions>(builder.Configuration.GetSection(ApplicationOptions.SectionName));
 builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
 
 builder.Services.AddDbContext<TDiningDbContext>(options => options.UseSqlite(connectionString));
