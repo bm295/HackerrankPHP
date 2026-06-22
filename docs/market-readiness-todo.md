@@ -37,15 +37,15 @@ T Dining is **not ready to market yet**. The repository has a useful backend pro
 - [x] Add test `SendToKitchenAsync_WhenOrderHasNoLines_ReturnsValidationFailure`.
 - [x] Add test `ProcessPaymentAsync_WhenInventoryIsInsufficient_DoesNotRecordPayment`.
 - [x] Add test `CloseOrderAsync_WhenNotFullyPaid_ReturnsValidationFailure`.
-- [ ] Create class `ReservationUseCasesTests` in `tests/TDining.Api.Tests/Application/UseCases/ReservationUseCasesTests.cs`.
-- [ ] Add test `CreateReservationAsync_WhenCapacityExceeded_ReturnsValidationFailure`.
-- [ ] Add test `CreateReservationAsync_WhenInputHasWhitespace_TrimsCustomerAndPhone`.
-- [ ] Create class `ReportingUseCasesTests` in `tests/TDining.Api.Tests/Application/UseCases/ReportingUseCasesTests.cs`.
-- [ ] Add test `GetDailyReportAsync_ReturnsSalesAndOrderCountsForDate`.
-- [ ] Create class `ApiEndpointTests` in `tests/TDining.Api.Tests/Api/ApiEndpointTests.cs` using `WebApplicationFactory`.
-- [ ] Add test `GetMenu_ReturnsSeededMenu`.
-- [ ] Add test `PostOrder_WithInvalidMenuItem_ReturnsBadRequestProblemDetails`.
-- [ ] Add GitHub Actions workflow `.github/workflows/ci.yml` to run restore, build, test, and format checks.
+- [x] Create class `ReservationUseCasesTests` in `tests/TDining.Api.Tests/Application/UseCases/ReservationUseCasesTests.cs`.
+- [x] Add test `CreateReservationAsync_WhenCapacityExceeded_ReturnsValidationFailure`.
+- [x] Add test `CreateReservationAsync_WhenInputHasWhitespace_TrimsCustomerAndPhone`.
+- [x] Create class `ReportingUseCasesTests` in `tests/TDining.Api.Tests/Application/UseCases/ReportingUseCasesTests.cs`.
+- [x] Add test `GetDailyReportAsync_ReturnsSalesAndOrderCountsForDate`.
+- [x] Create class `ApiEndpointTests` in `tests/TDining.Api.Tests/Api/ApiEndpointTests.cs` using `WebApplicationFactory`.
+- [x] Add test `GetMenu_ReturnsSeededMenu`.
+- [x] Add test `PostOrder_WithInvalidMenuItem_ReturnsBadRequestProblemDetails`.
+- [x] Add GitHub Actions workflow `.github/workflows/ci.yml` to run restore, build, test, and format checks.
 
 ## Phase 2 — Add production-ready validation and API contracts
 
