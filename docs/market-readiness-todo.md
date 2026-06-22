@@ -121,7 +121,8 @@ T Dining is **not ready to market yet**. The repository has a useful backend pro
 - [ ] Move seed data behind an environment flag so production does not automatically reseed demo data.
 - [ ] Add `Dockerfile` for the API.
 - [ ] Add `docker-compose.yml` for local API and database startup.
-- [ ] Add `appsettings.Production.json` with safe logging defaults and no secrets.
+- [x] Add `appsettings.Production.json` with safe logging defaults and no secrets.
+- [x] Create `docs/ENVIRONMENT_VARIABLES.md` documenting production runtime configuration.
 - [ ] Add `/health` endpoint for service health.
 - [ ] Add `/ready` endpoint that checks database connectivity.
 - [ ] Add structured JSON logging.
