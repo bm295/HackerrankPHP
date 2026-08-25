@@ -22,7 +22,7 @@ public sealed class ServiceCollectionExtensionsTests
 
     private static void AssertScoped<TPort, TImplementation>(IServiceCollection services)
     {
-        var registration = Assert.Single(services.Where(descriptor => descriptor.ServiceType == typeof(TPort)));
+        var registration = Assert.Single(services, descriptor => descriptor.ServiceType == typeof(TPort));
         Assert.Equal(typeof(TImplementation), registration.ImplementationType);
         Assert.Equal(ServiceLifetime.Scoped, registration.Lifetime);
     }
