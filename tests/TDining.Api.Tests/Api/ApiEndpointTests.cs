@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using TDining.Api.Application.DTOs;
+using TDining.Api.Domain.Entities;
 
 namespace TDining.Api.Tests.Api;
 
@@ -43,6 +44,22 @@ public sealed class ApiEndpointTests
         Assert.Equal($"Menu item '{missingMenuItemId}' does not exist.", problem.Detail);
     }
 
+    [Fact]
+    public async Task PatchTableStatus_PersistsStatusAcrossRequests()
+    {
+        await using var factory = new TDiningApiFactory();
+        using var client = factory.CreateClient();
+
+        var response = await client.PatchAsJsonAsync(
+            "/tables/T1/status",
+            new UpdateTableStatusRequest(TableStatus.Cleaning));
+        var tables = await client.GetFromJsonAsync<List<DiningTableResponse>>("/tables");
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.NotNull(tables);
+        Assert.Contains(tables, table => table.Code == "T1" && table.Status == "Cleaning");
+    }
+
     private sealed class TDiningApiFactory : WebApplicationFactory<Program>
     {
         private readonly string _databasePath = Path.Combine(Path.GetTempPath(), $"tdining-api-tests-{Guid.NewGuid():N}.db");
@@ -71,5 +88,6 @@ public sealed class ApiEndpointTests
     }
 
     private sealed record MenuItemResponse(Guid Id, string Name, string Category, decimal PriceVnd, bool IsAvailable);
+    private sealed record DiningTableResponse(string Code, int Seats, string Status);
     private sealed record ProblemDetailsResponse(string? Title, int? Status, string? Detail);
 }
