@@ -1,12 +1,8 @@
 using TDining.Api.Application.DTOs;
 using TDining.Api.Application.Ports.In;
-using TDining.Api.Application.Ports.Out;
-using TDining.Api.Application.UseCases;
+using TDining.Api.Composition;
 using TDining.Api.Domain.Entities;
-using TDining.Api.Domain.Services;
-using TDining.Api.Infrastructure.Outbox;
 using TDining.Api.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var databasePath = Path.Combine(builder.Environment.ContentRootPath, "tdining.db");
@@ -15,21 +11,9 @@ var connectionString = builder.Configuration.GetConnectionString("Default") ?? $
 builder.Services.AddProblemDetails();
 builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
 
-builder.Services.AddDbContext<TDiningDbContext>(options => options.UseSqlite(connectionString));
-builder.Services.AddScoped<IOrderRepository, EfOrderRepository>();
-builder.Services.AddScoped<ITableRepository, EfTableRepository>();
-builder.Services.AddScoped<IMenuRepository, EfMenuRepository>();
-builder.Services.AddScoped<IInventoryRepository, EfInventoryRepository>();
-builder.Services.AddScoped<IPaymentRepository, EfPaymentRepository>();
-builder.Services.AddScoped<IReservationRepository, EfReservationRepository>();
-builder.Services.AddScoped<IUnitOfWork, EfUnitOfWork>();
-
-builder.Services.AddSingleton<InventoryConsumptionService>();
-builder.Services.AddScoped<IOrderUseCases, OrderUseCases>();
-builder.Services.AddScoped<IReservationUseCases, ReservationUseCases>();
-builder.Services.AddScoped<IReportingUseCases, ReportingUseCases>();
-builder.Services.AddSingleton<IIntegrationEventPublisher, LoggingIntegrationEventPublisher>();
-builder.Services.AddHostedService<OutboxProcessor>();
+builder.Services
+    .AddTDiningApplication()
+    .AddTDiningInfrastructure(connectionString);
 
 var app = builder.Build();
 app.UseExceptionHandler();
@@ -48,32 +32,22 @@ app.MapGet("/", () => Results.Ok(new
     persistence = "SQLite with transactional outbox"
 }));
 
-app.MapGet("/tables", async (ITableRepository tableRepository, CancellationToken ct) =>
-{
-    var tables = await tableRepository.ListAsync(ct);
-    return Results.Ok(tables.Select(t => new { t.Code, t.Seats, status = t.Status.ToString() }));
-});
+app.MapGet("/tables", async (IRestaurantOperationsUseCases useCases, CancellationToken ct) =>
+    Results.Ok(await useCases.ListTablesAsync(ct)));
 
-app.MapPatch("/tables/{tableCode}/status", async (string tableCode, UpdateTableStatusRequest request, ITableRepository tableRepository, CancellationToken ct) =>
+app.MapPatch("/tables/{tableCode}/status", async (string tableCode, UpdateTableStatusRequest request, IRestaurantOperationsUseCases useCases, CancellationToken ct) =>
 {
-    var table = await tableRepository.GetByCodeAsync(tableCode, ct);
+    var table = await useCases.UpdateTableStatusAsync(tableCode, request.Status, ct);
     if (table is null) return Results.NotFound(new { error = "Table not found." });
 
-    table.UpdateStatus(request.Status);
-    return Results.Ok(new { table.Code, table.Seats, status = table.Status.ToString() });
+    return Results.Ok(table);
 });
 
-app.MapGet("/menu", async (IMenuRepository menuRepository, CancellationToken ct) =>
-{
-    var menu = await menuRepository.ListAsync(ct);
-    return Results.Ok(menu.Select(m => new { m.Id, m.Name, m.Category, m.PriceVnd, m.IsAvailable }));
-});
+app.MapGet("/menu", async (IRestaurantOperationsUseCases useCases, CancellationToken ct) =>
+    Results.Ok(await useCases.ListMenuAsync(ct)));
 
-app.MapGet("/inventory", async (IInventoryRepository inventoryRepository, CancellationToken ct) =>
-{
-    var inventory = await inventoryRepository.ListAsync(ct);
-    return Results.Ok(inventory.Select(i => new { i.Id, i.Name, i.Unit, i.Quantity }));
-});
+app.MapGet("/inventory", async (IRestaurantOperationsUseCases useCases, CancellationToken ct) =>
+    Results.Ok(await useCases.ListInventoryAsync(ct)));
 
 app.MapGet("/orders", async (IOrderUseCases useCases, CancellationToken ct) => Results.Ok(await useCases.ListOrdersAsync(ct)));
 
