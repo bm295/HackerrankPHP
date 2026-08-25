@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using TDining.Api.Application.Ports.In;
 using TDining.Api.Application.Ports.Out;
 using TDining.Api.Application.UseCases;
